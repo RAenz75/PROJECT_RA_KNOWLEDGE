@@ -1,6 +1,10 @@
 const express = require('express');
 const { Pool } = require('pg');
 const multer = require('multer');
+const cors = require('cors');
+
+
+
 const upload = multer();
 const app = express();
 
@@ -18,7 +22,10 @@ const pool = new Pool({
 
 
 
-app.use(express.json({ limit: '50mb' }));
+app.use(express.json({ limit: '50mb' }), 
+cors({origin: 'http://localhost:3000',
+    credentials: true
+}));
 
 app.get('/api/fichiers', async (req, res) => {
     try {
@@ -54,7 +61,7 @@ app.post('/api/fichiers/upload', upload.array('files'), async (req, res) => {
         // Fallback: accept JSON body with `nom` and `content` fields
         const { nom, content } = req.body
         if (nom && content) {
-            const result = await pool.query('INSERT INTO fichiers (nom, content) VALUES ($1, $2) RETURNING id, nom, contenu, date_ajout', [nom, contenu])
+            const result = await pool.query('INSERT INTO fichiers (nom, content) VALUES ($1, $2) RETURNING id, nom, content, date_ajout', [nom, content])
             const row = result.rows[0]
             return res.status(201).json({ id: row.id, name: row.nom, createdAt: row.date_ajout })
         }
