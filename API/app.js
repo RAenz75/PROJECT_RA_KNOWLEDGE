@@ -23,7 +23,7 @@ const pool = new Pool({
 
 
 app.use(express.json({ limit: '50mb' }), 
-cors({origin: 'http://localhost:3000',
+cors({origin: 'http://localhost:5173',
     credentials: true
 }));
 
@@ -37,6 +37,20 @@ app.get('/api/fichiers', async (req, res) => {
             createdAt: row.date_ajout
         }))
         res.json(files);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+})
+
+app.get('/api/fichiers/:id', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT id, nom, content, date_ajout FROM fichiers WHERE id = $1', [req.params.id])
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Fichier non trouvé' })
+        }
+        const row = result.rows[0]
+        res.json({ id: row.id, name: row.nom, content: row.content, createdAt: row.date_ajout })
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal Server Error' });

@@ -20,7 +20,7 @@ export default function Library() {
       try {
         setLoading(true)
         setError('')
-        const response = await fetch('http://localhost:3000/api', {
+        const response = await fetch('http://localhost:3000/api/fichiers', {
           method: 'GET',
         })
 
@@ -103,7 +103,9 @@ export default function Library() {
                         Télécharger
                       </a>
                     )}
-                    <button className="action-btn view">Voir</button>
+                    <Link to={`/library/${file.id}`} className="action-btn view">
+                      Voir
+                    </Link>
                   </td>
                 </tr>
               ))}
