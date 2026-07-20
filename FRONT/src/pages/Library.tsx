@@ -103,7 +103,9 @@ export default function Library() {
                         Télécharger
                       </a>
                     )}
-                    <button className="action-btn view">Voir</button>
+                    <Link to={`/library/${file.id}`} className="action-btn view">
+                      Voir
+                    </Link>
                   </td>
                 </tr>
               ))}
