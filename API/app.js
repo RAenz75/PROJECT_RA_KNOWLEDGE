@@ -23,7 +23,7 @@ const pool = new Pool({
 
 
 app.use(express.json({ limit: '50mb' }), 
-cors({origin: 'http://localhost:3000',
+cors({origin: 'http://localhost:5173',
     credentials: true
 }));
 

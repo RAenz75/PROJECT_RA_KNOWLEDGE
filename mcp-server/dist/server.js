@@ -7,6 +7,9 @@ function createServer() {
         name: 'mcp-server',
         version: '0.0.1',
     });
+
+    
+
     server.registerResource('db-schema', 'schema://database', { title: 'Database schema', mimeType: 'application/json' }, async (uri) => {
         const { rows } = await pool.query(`
                 SELECT table_name, column_name, data_type, is_nullable

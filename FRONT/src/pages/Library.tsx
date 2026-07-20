@@ -20,7 +20,7 @@ export default function Library() {
       try {
         setLoading(true)
         setError('')
-        const response = await fetch('http://localhost:3000/api', {
+        const response = await fetch('http://localhost:3000/api/fichiers', {
           method: 'GET',
         })
 
